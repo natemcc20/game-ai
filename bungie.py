@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, render_template
 from requests_oauthlib import OAuth2Session
 import os
 
@@ -27,7 +27,7 @@ def callback():
     header = {"X-API-Key": os.getenv("BUNGIE_KEY")}
     resp = oauth.get("https://www.bungie.net/Platform/Social/Friends", headers=header)
 
-    return f"<pre>{resp.status_code}\n {resp.reason}\n{resp.text}</pre>"
+    return render_template("game.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)
