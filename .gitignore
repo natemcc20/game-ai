@@ -1,2 +1,78 @@
+# Local development environment
 .env
 venv/
+__pycache__/
+*.pyc
+
+# VS Code settings
+.vscode/
+.history/
+
+# Node.js
+node_modules/
+
+# Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+*.ncb
+*.opt
+*.plg
+*.vbw
+*.vbp
+*.aps
+*.idb
+*.ipdb
+*.pdb
+*.obj
+*.log
+*.tlog
+*.tmp
+*.cache
+*.sdf
+*.VC.db
+*.VC.VC.opendb
+*.dbmdl
+*.dbproj.schemaview
+
+# Build and output folders
+bin/
+obj/
+build/
+out/
+*.dll
+*.exe
+
+# Backup and auto-gen
+~$*
+*~
+*.bak
+
+# Publish
+publish/
+*.publishproj
+*.pubxml
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuget.*
+
+# Test and coverage
+*.trx
+TestResult.xml
+coverage.*
+*.coverage*
+
+# AWS/Azure
+.aws-sam
+PublishScripts/
+
+# Tools
+tools/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
