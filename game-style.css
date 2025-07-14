@@ -1,0 +1,81 @@
+body,
+p {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    color: rgb(#ff00ff33);
+    text-shadow: 0 0 10px #00ffff88;
+}
+
+body {
+    background: darkslategray;
+    margin: 0;
+    height: 100vh;
+}
+
+.mic-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#mic {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: none;
+    padding: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mic img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%) scale(1);
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #00ffff55, #ff00ff33, #00ff8844);
+    filter: blur(12px);
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.glow.active {
+    animation: glowPulse 2s infinite ease-in-out;
+    opacity: 1;
+}
+
+@keyframes glowPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.4;
+    }
+}
