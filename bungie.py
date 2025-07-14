@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 client_id = os.getenv('CLIENT_ID')
 client_secret = os.getenv('CLIENT_SECRET')
-redirect_uri = "http://localhost:8080/callback"
+redirect_uri = "https://game-ai-19pg.onrender.com" 
 auth_base_url = "https://www.bungie.net/en/OAuth/Authorize"
 token_url = "https://www.bungie.net/platform/app/oauth/token/"
 
