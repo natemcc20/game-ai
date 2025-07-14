@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>AI Gaming Assistant</title>
-    <link rel="stylesheet" href="game-style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
 </head>
@@ -15,11 +15,11 @@
     <div class="mic-wrapper">
         <button id="mic">
             <div class="glow"></div>
-            <img src="mic.png" alt="Mic Icon">
+            <img src="{{ url_for('static', filename='images/mic.png') }}" alt="Mic Icon">
         </button>
     </div>
 
-    <script src="game.js"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
 
 </body>
 
