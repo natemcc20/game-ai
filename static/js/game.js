@@ -1,10 +1,6 @@
 const mic = document.getElementById('mic');
 const glow = mic.querySelector('.glow');
 
-audioRecorder = new WebAudioRecorder(sourceNode, {
-  workerDir: "/static/js/"     
-});
-
 const showGlow = () => glow.classList.add('active');
 const hideGlow = () => glow.classList.remove('active'); 
 
@@ -18,20 +14,40 @@ recognition.lang = LANG;
 recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
   outputDiv.textContent += ` ${transcript}`;
+  console.log(transcript);
+
 };
 
 
 
 function onHold () {
-    mic.addEventListener('mousedown', showGlow);
-    mic.addEventListener('mouseup', hideGlow);
-    mic.addEventListener('mouseleave', hideGlow);
-    recognition.onstart = () => startButton.textContent = "Listening...";;
-    recognition.onend = () => startButton.textContent = "Start Voice Input";;
-    mic.addEventListener("mousedown", () => recognition.start());
-    mic.addEventListener("mouseup", () => recognition.stop()); 
-    console.log(transcript); 
+  mic.addEventListener('mousedown', () => {
+    showGlow();
+    recognition.start();
+  });
+
+  mic.addEventListener('mouseup', () => {
+    hideGlow();
+    recognition.stop();
+  });
+
+  mic.addEventListener('mouseleave', () => {
+    hideGlow();
+    recognition.stop();
+  });
 }
 
-mic.addEventListener('touchstart', showGlow);
-mic.addEventListener('touchend', hideGlow);
+
+mic.addEventListener('touchstart', () => {
+  showGlow();
+  recognition.start();
+  startButton.textContent = "Listening...";
+});
+
+mic.addEventListener('touchend', () => {
+  hideGlow();
+  recognition.stop();
+  startButton.textContent = "Start Voice Input";
+});
+
+onHold();
