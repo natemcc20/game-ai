@@ -1,6 +1,8 @@
 const mic = document.getElementById('mic');
 const glow = mic.querySelector('.glow');
 
+const LANG = 'en-US';
+
 const showGlow = () => glow.classList.add('active');
 const hideGlow = () => glow.classList.remove('active'); 
 
@@ -13,9 +15,7 @@ recognition.lang = LANG;
 
 recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
-  outputDiv.textContent += ` ${transcript}`;
   console.log(transcript);
-
 };
 
 
