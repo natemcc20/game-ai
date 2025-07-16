@@ -16,8 +16,10 @@ recognition.lang = LANG;
 recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
   console.log(transcript);
+  fetch(`/get_transcript?msg=${encodeURIComponent(transcript)}`)
+  .then(res => res.json())
+  .then(data => console.log(data.response));
 };
-
 
 
 function onHold () {
@@ -41,13 +43,11 @@ function onHold () {
 mic.addEventListener('touchstart', () => {
   showGlow();
   recognition.start();
-  startButton.textContent = "Listening...";
 });
 
 mic.addEventListener('touchend', () => {
   hideGlow();
   recognition.stop();
-  startButton.textContent = "Start Voice Input";
 });
 
 onHold();
