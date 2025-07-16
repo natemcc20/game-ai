@@ -41,13 +41,13 @@ def callback():
 def getTranscript():
     message = request.args.get('msg', 'No transcript sent')
     session['transcript'] = message
-    return jsonify({'stored': f'You transcript: {message}'})
+    return jsonify({'stored': f'You said: {message}'})
 
     
 @app.route("/post_transcript", methods=['POST'])
 def postTranscript():
     
-    incoming_data = requests.get_json()
+    incoming_data = request.get_json()
     transcript = session.get("transcript", "")
 
     external_ai = "https://api.openai.com/v1/chat/completions"
