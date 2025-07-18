@@ -8,10 +8,12 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "super-secret-dev-key") 
 
 client_id = os.getenv('CLIENT_ID')
+api_key = os.getenv("OPENAI_API_KEY")
 client_secret = os.getenv('CLIENT_SECRET')
 redirect_uri = "https://game-ai-19pg.onrender.com/callback" 
 auth_base_url = "https://www.bungie.net/en/OAuth/Authorize"
 token_url = "https://www.bungie.net/platform/app/oauth/token/"
+external_ai = "https://api.openai.com/v1/chat/completions"
 
 
 @app.route("/")
@@ -50,10 +52,6 @@ def postTranscript():
     incoming_data = request.get_json()
     transcript = session.get("transcript", "")
 
-    external_ai = "https://api.openai.com/v1/chat/completions"
-    
-    api_key = os.getenv("OPENAI_API_KEY")
-
     if not api_key:
         return jsonify({"status": "error", "message": "OpenAI API key missing"}), 500
 
@@ -66,9 +64,7 @@ def postTranscript():
 
     payload = {
         "model": "gpt-4",
-        "messages": [
-            {"role": "user", "content": prompt}
-        ]
+        "messages": [{"role": "user", "content": prompt}]
     }
 
     try:

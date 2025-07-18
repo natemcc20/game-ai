@@ -17,34 +17,31 @@ recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
   console.log("Transcript:", transcript);
 
-  // Step 1: Send to /get_transcript to store in Flask session
+  //Send to /get_transcript to store in Flask session
   fetch(`/get_transcript?msg=${encodeURIComponent(transcript)}`)
     .then(res => res.json())
     .then(data => {
       console.log("Stored:", data.response);
 
-      // Step 2: Immediately POST to Flask to get AI response
+      //POST to Flask to get AI response
       return fetch('/post_transcript', {
-        method: 'POST',
+        method: 'POST',       
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json'  //flask is receiving..so bug not here 
         },
         body: JSON.stringify({
-          value1: "Voice input received:" // optional: can customize prompt
+          value1: "Voice input received:" 
         })
       });
     })
     .then(res => res.json())
     .then(data => {
-      const content = data.external_api_response?.choices?.[0]?.message?.content;
-      console.log("AI Response:", content);
+      const content = data.external_ai.response?.choices?.[0]?.message?.content;  //maybe this should be data.external_ai?.choices?.[0]?.message?.content;
+      console.log("AI Response:", content); //undefined received 
+      console.log(JSON.stringify(data, null, 2));
+
       
-      // Optional: show AI response in the DOM
-      const output = document.getElementById('output');
-      if (output && content) {
-        output.textContent = content;
-      }
-    })
+})    
     .catch(err => console.error("Error:", err));
 };
 
