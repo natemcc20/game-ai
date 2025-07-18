@@ -58,7 +58,7 @@ def postTranscript():
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
-    }
+    }   
 
     prompt = f"{incoming_data.get('value1', '')}\n{transcript}"
 
