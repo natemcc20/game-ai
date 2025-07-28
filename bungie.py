@@ -1,5 +1,6 @@
 from flask import Flask, redirect, request, render_template, session, jsonify
 from requests_oauthlib import OAuth2Session
+from openai import OpenAI 
 import requests
 import os
 import json 
@@ -7,13 +8,15 @@ import json
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "super-secret-dev-key") 
 
+
+client =  OpenAI() 
 client_id = os.getenv('CLIENT_ID')
 api_key = os.getenv("OPENAI_API_KEY")
 client_secret = os.getenv('CLIENT_SECRET')
 redirect_uri = "https://game-ai-19pg.onrender.com/callback" 
 auth_base_url = "https://www.bungie.net/en/OAuth/Authorize"
 token_url = "https://www.bungie.net/platform/app/oauth/token/"
-external_ai = "https://api.openai.com/v1/chat/completions"
+external_ai = "https://api.openai.com/v1/chat/completions"  #this is my error check OPENAI resource page 
 
 
 @app.route("/")
@@ -39,7 +42,7 @@ def callback():
     return redirect("/")  
 
 
-@app.route("/get_transcript", methods=["GET", "POST"])
+@app.route("/get_transcript", methods=["GET", "POST"]) #this is working 
 def getTranscript():
     message = request.args.get('msg', 'No transcript sent')
     session['transcript'] = message
