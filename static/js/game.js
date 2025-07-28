@@ -36,8 +36,9 @@ recognition.onresult = (event) => {
     })
     .then(res => res.json())
     .then(data => {
-      const content = data.external_ai_response?.choices?.[0]?.message?.content; 
+      const content = data.external_api_response?.choices?.[0]?.message?.content;
       console.log("AI Response:", content);
+      console.logt("Full AI response:", data)
       
 })    
     .catch(err => console.error("Error:", err));
