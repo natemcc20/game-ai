@@ -59,19 +59,23 @@ def postTranscript():
     value1 = incoming_data.get("value1", "")
 
     prompt = f"{value1}\n{transcript}"
+    print("Prompt being sent to OpenAI:\n", prompt)
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=[
                 {"role": "user", "content": prompt}
             ]
         )
 
         ai_message = response.choices[0].message.content
+        print("AI Response:\n", ai_message)
+
         return jsonify({"status": "success", "response": ai_message})
 
     except Exception as e:
+        print("🔥 OpenAI API ERROR:", e)
         return jsonify({"status": "error", "message": str(e)}), 500
 
 # Run server
