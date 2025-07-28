@@ -9,14 +9,14 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "super-secret-dev-key") 
 
 
-client =  OpenAI() 
+client =  OpenAI(os.getenv('OPENAI_API_KEY')) 
 client_id = os.getenv('CLIENT_ID')
 api_key = os.getenv("OPENAI_API_KEY")
 client_secret = os.getenv('CLIENT_SECRET')
 redirect_uri = "https://game-ai-19pg.onrender.com/callback" 
 auth_base_url = "https://www.bungie.net/en/OAuth/Authorize"
 token_url = "https://www.bungie.net/platform/app/oauth/token/"
-external_ai = "https://api.openai.com/v1/chat/completions"  #this is my error check OPENAI resource page 
+external_ai = "https://api.openai.com/v1/chat/completions"   
 
 
 @app.route("/")
