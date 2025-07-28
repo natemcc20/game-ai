@@ -21,7 +21,7 @@ recognition.onresult = (event) => {
   fetch(`/get_transcript?msg=${encodeURIComponent(transcript)}`)
     .then(res => res.json())
     .then(data => {
-      console.log("Stored:", data.stored);
+      console.log("stored", data.stored);
 
       //POST to Flask to get AI response
       return fetch('/post_transcript', {
