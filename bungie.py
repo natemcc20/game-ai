@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "super-secret-dev-key") 
 
 
-client =  OpenAI(os.getenv('OPENAI_API_KEY')) 
+client =  OpenAI(api_key=os.getenv('OPENAI_API_KEY')) 
 client_id = os.getenv('CLIENT_ID')
 api_key = os.getenv("OPENAI_API_KEY")
 client_secret = os.getenv('CLIENT_SECRET')
