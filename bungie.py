@@ -31,7 +31,7 @@ def index():
         auth_url, state = oauth.authorization_url(auth_base_url)
         session['oauth_state'] = state
         return redirect(auth_url)
-
+      
 # OAuth callback
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
@@ -44,6 +44,11 @@ def callback():
     session['oauth_token'] = token
     return redirect("/")
 
+#telling the AI how to respond 
+def load_prompt(path):
+    with open(path, "r", encoding='utf-8') as f:
+        return f.read() 
+    
 # Store transcript from frontend
 @app.route("/get_transcript", methods=["GET", "POST"])
 def getTranscript():
@@ -58,24 +63,23 @@ def postTranscript():
     transcript = session.get("transcript", "")
     value1 = incoming_data.get("value1", "")
 
-    prompt = f"{value1}\n{transcript}"
-    print("Prompt being sent to OpenAI:\n", prompt)
+    base_prompt = load_prompt('prompts/assistantActions.txt')
+    prompt = f"{base_prompt}\nUser command: \"{value1} {transcript}\""
 
     try:
         response = client.chat.completions.create(
             model="gpt-4o",
+            response_format="json",
             messages=[
                 {"role": "user", "content": prompt}
             ]
         )
 
         ai_message = response.choices[0].message.content
-        print("AI Response:\n", ai_message)
-
         return jsonify({"status": "success", "response": ai_message})
 
     except Exception as e:
-        print("🔥 OpenAI API ERROR:", e)
+        print("OpenAI API ERROR:", e)
         return jsonify({"status": "error", "message": str(e)}), 500
 
 # Run server

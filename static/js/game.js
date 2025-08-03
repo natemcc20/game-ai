@@ -37,7 +37,6 @@ recognition.onresult = (event) => {
     .then(res => res.json())
     .then(data => {
       console.log("AI Response:", data.response); 
-      console.log("Full AI response:", data);
     })
     .catch(err => console.error("Error:", err));
 };
