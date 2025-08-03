@@ -17,13 +17,13 @@ recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
   console.log("Transcript:", transcript);
 
-  // Send transcript to Flask session
+  // 1) Store transcript in Flask session
   fetch(`/get_transcript?msg=${encodeURIComponent(transcript)}`)
     .then(res => res.json())
     .then(data => {
       console.log("Stored:", data.stored);
 
-      // POST to Flask to get AI response
+      // 2) POST to Flask to get AI response
       return fetch('/post_transcript', {
         method: 'POST',
         headers: {
@@ -36,10 +36,19 @@ recognition.onresult = (event) => {
     })
     .then(res => res.json())
     .then(data => {
-      console.log("AI Response:", data.response); 
+      // 3) Inspect the full payload
+      console.log("Full payload:", data);
+
+      // 4) Branch on status
+      if (data.status === 'success') {
+        console.log("AI Response:", data.response);
+      } else {
+        console.error("AI Error:", data.message);
+      }
     })
-    .catch(err => console.error("Error:", err));
+    .catch(err => console.error("Network/Error:", err));
 };
+
 
 // mic events
 function onHold() {

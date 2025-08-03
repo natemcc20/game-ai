@@ -63,10 +63,11 @@ def postTranscript():
     transcript = session.get("transcript", "")
     value1 = incoming_data.get("value1", "")
 
-    base_prompt = load_prompt('prompts/assistantActions.txt')
-    prompt = f"{base_prompt}\nUser command: \"{value1} {transcript}\""
+    
 
     try:
+        base_prompt = load_prompt('prompts/assistantActions.txt')
+        prompt = f"{base_prompt}\nUser command: \"{value1} {transcript}\""
         response = client.chat.completions.create(
             model="gpt-4o",
             response_format="json",
@@ -79,8 +80,8 @@ def postTranscript():
         return jsonify({"status": "success", "response": ai_message})
 
     except Exception as e:
-        print("OpenAI API ERROR:", e)
-        return jsonify({"status": "error", "message": str(e)}), 500
+        print("ERROR in /post_transcript:", e)
+        return jsonify({"status": "error", "message": str(e)})
 
 # Run server
 if __name__ == "__main__":
