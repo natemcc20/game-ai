@@ -63,14 +63,13 @@ def postTranscript():
     transcript = session.get("transcript", "")
     value1 = incoming_data.get("value1", "")
 
-    
-
     try:
+
         base_prompt = load_prompt('prompts/assistantActions.txt')
         prompt = f"{base_prompt}\nUser command: \"{value1} {transcript}\""
+
         response = client.chat.completions.create(
             model="gpt-4o",
-            response_format="json",
             messages=[
                 {"role": "user", "content": prompt}
             ]
@@ -81,7 +80,7 @@ def postTranscript():
 
     except Exception as e:
         print("ERROR in /post_transcript:", e)
-        return jsonify({"status": "error", "message": str(e)})
+        return jsonify({"status": "error", "message": f"Error: {str(e)}"}), 500
 
 # Run server
 if __name__ == "__main__":
