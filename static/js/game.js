@@ -36,10 +36,7 @@ recognition.onresult = (event) => {
     })
     .then(res => res.json())
     .then(data => {
-      // 3) Inspect the full payload
       console.log("Full payload:", data);
-
-      // 4) Branch on status
       if (data.status === 'success') {
         console.log("AI Response:", data.response);
       } else {

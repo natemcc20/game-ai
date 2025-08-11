@@ -1,15 +1,23 @@
 from flask import Flask, redirect, request, render_template, session, jsonify
+from flask_sqlalchemy import SQLAlchemy
 from requests_oauthlib import OAuth2Session
 from openai import OpenAI
 from dotenv import load_dotenv
-import requests
 import os
+# from models import db, User
 
-# Load .env variables
+#test
 load_dotenv()
+
+db = SQLAlchemy()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "super-secret-dev-key")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///game_ai.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
 
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
@@ -20,6 +28,13 @@ client_secret = os.getenv('CLIENT_SECRET')
 redirect_uri = "https://game-ai-19pg.onrender.com/callback"
 auth_base_url = "https://www.bungie.net/en/OAuth/Authorize"
 token_url = "https://www.bungie.net/platform/app/oauth/token/"
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    bungie_id = db.Column(db.String(100), unique=True, nullable=False)
+    display_name = db.Column(db.String(100))
+    membership_type = db.Column(db.String(50))
+    loadout = db.Column(db.Text)  # Store loadout info
 
 # Home route: redirect to Bungie login or show game
 @app.route("/")
@@ -47,7 +62,7 @@ def callback():
 #telling the AI how to respond 
 def load_prompt(path):
     with open(path, "r", encoding='utf-8') as f:
-        return f.read() 
+        return f.read()
     
 # Store transcript from frontend
 @app.route("/get_transcript", methods=["GET", "POST"])
